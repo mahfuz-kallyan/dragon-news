@@ -9,6 +9,7 @@ import {
 import Home from './Pages/Home.jsx';
 import Error from './Pages/Error.jsx';
 import CategoryNews from './Pages/CategoryNews.jsx';
+import Authlayout from './AuthLayout/Authlayout.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,21 @@ const router = createBrowserRouter([
       {
         path: "/category/:id",
         element: <CategoryNews></CategoryNews>,
-        loader: ({params})=> fetch(`https://openapi.programming-hero.com/api/news/category/${params.id}`)
+        loader: ({ params }) => fetch(`https://openapi.programming-hero.com/api/news/category/${params.id}`)
+      },
+    ]
+  },
+  {
+    path: "/auth",
+    element: <Authlayout></Authlayout>,
+    children:[
+      {
+        path: "/auth/login",
+        element: <h2>Login</h2>,
+      },
+      {
+        path: "/auth/register",
+        element: <h2>Register</h2>,
       },
     ]
   }
