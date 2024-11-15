@@ -1,6 +1,7 @@
 import React from 'react';
 import { CiBookmark, CiShare2 } from "react-icons/ci";
 import { FaRegEye } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const NewsCard = ({ news }) => {
     const { author, title, rating, image_url, thumbnail_url, details, total_view } = news;
@@ -30,7 +31,9 @@ const NewsCard = ({ news }) => {
                     src={image_url}
                     alt="Shoes" />
             </figure>
-            <p className='p-2 text-sm text-[#706F6F]'>{details}</p>
+            <p className='p-2 text-sm text-[#706F6F]'>{details.slice(0, 150)}...{''}
+                <Link to={`/news/${news._id}`}><span className='text-primary'>Read more</span></Link>
+            </p>
             <div className='flex justify-between items-center px-2'>
                 <div className='flex gap-3'>
                     <div className="rating">

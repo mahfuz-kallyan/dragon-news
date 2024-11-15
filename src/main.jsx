@@ -10,6 +10,10 @@ import Home from './Pages/Home.jsx';
 import Error from './Pages/Error.jsx';
 import CategoryNews from './Pages/CategoryNews.jsx';
 import Authlayout from './AuthLayout/Authlayout.jsx';
+import Login from './Pages/Login.jsx';
+import Register from './Pages/Register.jsx';
+import AuthProvider from './Provider/AuthProvider.jsx';
+import NewsDetails from './Pages/NewsDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,21 +35,28 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Authlayout></Authlayout>,
-    children:[
+    children: [
       {
         path: "/auth/login",
-        element: <h2>Login</h2>,
+        element: <Login></Login>,
       },
       {
         path: "/auth/register",
-        element: <h2>Register</h2>,
+        element: <Register></Register>,
       },
     ]
+  },
+  {
+    path: "/news/:id",
+    element: <NewsDetails></NewsDetails>,
+    loader: ()=>
   }
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
