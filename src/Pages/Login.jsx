@@ -1,27 +1,32 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Provider/AuthProvider';
 
 
 const Login = () => {
 
-    const {userSignIn, setUser} = useContext(AuthContext)
+    const { userSignIn, setUser } = useContext(AuthContext)
+    const [error, setError] = useState({})
+    const location = useLocation();
+    const navigate = useNavigate()
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
 
-       userSignIn(email, password)
-       .then(result => {
-        const user = result.user;
-        setUser(user);
-       })
-       .catch(error => {
-        alert(error.message)
-       })
+
+        userSignIn(email, password)
+            .then(result => {
+                const user = result.user;
+                setUser(user);
+                navigate(location?.state ? location?.state : "/")
+            })
+            .catch(err => {
+                setError({ ...error, login: err.code })
+            })
     }
     return (
         <div className='min-h-screen flex justify-center items-center'>
@@ -39,6 +44,13 @@ const Login = () => {
                             <span className="label-text">Password</span>
                         </label>
                         <input type="password" name='password' placeholder="password" className="input input-bordered" required />
+                        {
+                            error.login && (
+                                <label className='text-red-600 text-sm'>
+                                    {error.login}
+                                </label>
+                            )
+                        }
                         <label className="label">
                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                         </label>
